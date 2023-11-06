@@ -23,6 +23,7 @@ const EditBooking = ({ params }: { params: { id: string } }) => {
   }, [checkin, checkout])
 
   useEffect(() => {
+    console.log(bookings[index])
     setCheckin(bookings[index].checkin)
     setCheckout(bookings[index].checkout)
     setProperty(bookings[index].property.name)
@@ -48,20 +49,21 @@ const EditBooking = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <main className='container mx-auto p-24'>
+    <main className='container mx-auto px-4 py-6 lg:p-24'>
       <header className='border-b-[1px] pb-5'>
         <div className='flex lg:flex-row flex-col justify-between items-center'>
-          <h1 className='text-lg underline underline-offset-8'>Add booking</h1>
+          <h1 className='text-lg underline underline-offset-8'>Edit booking</h1>
         </div>
       </header>
       <section>
         <form
-          className='flex flex-row flex-wrap py-8 gap-x-6'
+          className='flex flex-row flex-wrap py-8 lg:gap-x-6 gap-y-4'
           onSubmit={submitBooking}
         >
-          <div className='flex flex-col gap-y-2'>
+          <div className='flex flex-col gap-y-2 lg:w-fit w-full'>
             <span>Check-in:</span>
             <input
+              key={checkin.toISOString()}
               className='border-b-[1px]'
               type='date'
               onChange={(e) => setCheckin(new Date(e.target.value))}
@@ -69,9 +71,10 @@ const EditBooking = ({ params }: { params: { id: string } }) => {
               defaultValue={checkin.toISOString().split('T')[0]}
             />
           </div>
-          <div className='flex flex-col gap-y-2'>
+          <div className='flex flex-col gap-y-2 lg:w-fit w-full'>
             <span>Check-out:</span>
             <input
+              key={checkout.toISOString()}
               className='border-b-[1px]'
               type='date'
               onChange={(e) => setCheckout(new Date(e.target.value))}
@@ -79,42 +82,46 @@ const EditBooking = ({ params }: { params: { id: string } }) => {
               defaultValue={checkout.toISOString().split('T')[0]}
             />
           </div>
-          <div className='flex flex-col gap-y-2'>
+          <div className='flex flex-col gap-y-2 lg:w-fit w-full'>
             <span>Select the property:</span>
             <select
               className='pb-1 rounded hover:background-transparent border-b-[1px]'
               onChange={(e) => setProperty(e.target.value)}
+              defaultValue={property}
             >
-              {properties.map((property) => (
+              {properties.map((propertyEl) => (
                 <option
-                  key={`${property.name}-${property.location}`}
-                  value={property.name}
+                  key={`${propertyEl.name}-${propertyEl.location}`}
+                  value={propertyEl.name}
+                  selected={propertyEl.name === property}
                 >
-                  {property.name}
+                  {propertyEl.name}
                 </option>
               ))}
             </select>
           </div>
-          <button
-            type='submit'
-            disabled={
-              !isBookingValid(checkin, checkout, property!) || !property
-            }
-            className={`w-fit ml-6 border rounded px-6 ${
-              isBookingValid(checkin, checkout, property!) &&
-              property &&
-              'hover:border-gray-800'
-            }`}
-          >
-            Save
-          </button>
-          <button
-            type='button'
-            className='w-fit border rounded px-6 hover:border-gray-800'
-            onClick={() => router.push('/')}
-          >
-            Cancel
-          </button>
+          <div className='flex lg:flex-row flex-col w-full lg:w-fit gap-y-4 lg:gap-x-6'>
+            <button
+              type='submit'
+              disabled={
+                !isBookingValid(checkin, checkout, property!) || !property
+              }
+              className={`lg:w-fit w-full border rounded px-6 ${
+                isBookingValid(checkin, checkout, property!) &&
+                property &&
+                'hover:border-gray-800'
+              }`}
+            >
+              Save
+            </button>
+            <button
+              type='button'
+              className='lg:w-fit w-full border rounded px-6 hover:border-gray-800'
+              onClick={() => router.push('/')}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </section>
     </main>

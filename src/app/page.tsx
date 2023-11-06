@@ -12,14 +12,14 @@ const Home = () => {
   const { bookings, setBookings } = useContext(BookingContext)
 
   return (
-    <main className='container mx-auto p-24'>
+    <main className='container mx-auto px-4 py-6 lg:p-24'>
       <header className='border-b-[1px] pb-5'>
         <div className='flex lg:flex-row flex-col justify-between items-center'>
           <h1 className='text-lg underline underline-offset-8'>
             Your bookings
           </h1>
           <button
-            className='px-6 py-2 border rounded hover:border-gray-800'
+            className='px-6 py-2 border rounded hover:border-gray-800 mt-4 w-full lg:w-fit lg:mt-0'
             onClick={() => router.push('/create')}
           >
             Add booking
@@ -28,7 +28,7 @@ const Home = () => {
       </header>
       <section className='grid grid-cols-1 divide-y'>
         {bookings.length === 0 && (
-          <div className='mt-6'>
+          <div className='mt-6 text-center lg:text-start'>
             <span>There is no bookings to show.</span>
           </div>
         )}
@@ -36,7 +36,7 @@ const Home = () => {
           bookings.map((booking, index) => (
             <div
               key={`${booking.property.name}+${booking.checkout.getTime()}`}
-              className='p-8 flex flex-row justify-between'
+              className='lg:p-8 py-8 flex flex-row justify-between'
             >
               <div className='flex flex-row items-center'>
                 <div>
@@ -106,9 +106,12 @@ const Home = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className='flex flex-row justify-between items-center gap-x-8'>
-                    <span className='text-sm'>
+                  <div className='flex lg:flex-row flex-col justify-between items-center gap-x-8'>
+                    <span className='text-sm lg:flex hidden'>
                       Are you sure you want to delete this booking?
+                    </span>
+                    <span className='text-sm lg:hidden block'>
+                      Are you sure?
                     </span>
                     <div>
                       <span
