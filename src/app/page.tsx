@@ -8,7 +8,6 @@ import Link from 'next/link'
 
 const Home = () => {
   const router = useRouter()
-  const [deletingBooking, setDeletingBooking] = useState<Booking | null>()
   const [deletingIndex, setDeletingIndex] = useState<number | null>()
   const { bookings, setBookings } = useContext(BookingContext)
 
@@ -89,7 +88,6 @@ const Home = () => {
                     <button
                       className='hover:border-b-2 p-2'
                       onClick={() => {
-                        setDeletingBooking(booking)
                         setDeletingIndex(index)
                       }}
                     >
@@ -125,7 +123,6 @@ const Home = () => {
                             (booking, arrIndex) => index !== arrIndex
                           )
                           setBookings(newBookingsArr)
-                          setDeletingBooking(null)
                           setDeletingIndex(null)
                         }}
                       >
@@ -134,7 +131,6 @@ const Home = () => {
                       <span
                         className='text-sm hover:underline hover:underline-offset-8 cursor-pointer'
                         onClick={() => {
-                          setDeletingBooking(null)
                           setDeletingIndex(null)
                         }}
                       >
