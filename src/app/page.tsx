@@ -9,6 +9,7 @@ import Link from 'next/link'
 const Home = () => {
   const router = useRouter()
   const [deletingBooking, setDeletingBooking] = useState<Booking | null>()
+  const [deletingIndex, setDeletingIndex] = useState<number | null>()
   const { bookings, setBookings } = useContext(BookingContext)
 
   return (
@@ -64,7 +65,7 @@ const Home = () => {
                 </div>
               </div>
               <div className='flex flex-col items-center justify-center'>
-                {!deletingBooking ? (
+                {deletingIndex !== index ? (
                   <div className='grid grid-cols-2 divide-x'>
                     <Link
                       className='hover:border-b-2 p-2'
@@ -87,7 +88,10 @@ const Home = () => {
                     </Link>
                     <button
                       className='hover:border-b-2 p-2'
-                      onClick={() => setDeletingBooking(booking)}
+                      onClick={() => {
+                        setDeletingBooking(booking)
+                        setDeletingIndex(index)
+                      }}
                     >
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -122,13 +126,17 @@ const Home = () => {
                           )
                           setBookings(newBookingsArr)
                           setDeletingBooking(null)
+                          setDeletingIndex(null)
                         }}
                       >
                         Yes
                       </span>
                       <span
                         className='text-sm hover:underline hover:underline-offset-8 cursor-pointer'
-                        onClick={() => setDeletingBooking(null)}
+                        onClick={() => {
+                          setDeletingBooking(null)
+                          setDeletingIndex(null)
+                        }}
                       >
                         No
                       </span>
